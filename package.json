@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env DEBUG=todo-api:* node ./bin/www",
-    "test": "ava --compilers js:babel-register"
+    "test": "ava --compilers js:babel-register --tap | tap-nyan"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -18,8 +18,9 @@
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
-    "cross-env": "^4.0.0",
     "ava": "^0.18.2",
-    "supertest": "^3.0.0"
+    "cross-env": "^4.0.0",
+    "supertest": "^3.0.0",
+    "tap-nyan": "^1.1.0"
   }
 }
