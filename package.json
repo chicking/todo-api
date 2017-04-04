@@ -5,7 +5,7 @@
   "author": "gongzza <gz.us.to@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "cross-env DEBUG=todo-api:* node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -15,5 +15,8 @@
     "morgan": "~1.8.1",
     "pug": "~2.0.0-beta11",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "cross-env": "^4.0.0"
   }
 }
