@@ -1,6 +1,8 @@
 {
   "name": "todo-api",
-  "version": "0.0.0",
+  "description": "A Todo api server",
+  "version": "1.0.0",
+  "author": "gongzza <gz.us.to@gmail.com>",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
