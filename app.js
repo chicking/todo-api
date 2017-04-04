@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var debug = require('debug')('todo-api:app');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -40,7 +42,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    message: err.message
+  })
+  // res.render('error');
 });
 
 module.exports = app;
