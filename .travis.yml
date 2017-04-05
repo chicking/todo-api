@@ -5,5 +5,7 @@ node_js:
   - 6
 script:
   - npm run test:base
+after_success:
+  - npm run report-coverage
 notifications:
   slack: godofchicken:BqRKwRJXLp7VjtggROq6riqm
