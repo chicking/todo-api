@@ -8,7 +8,9 @@
     "start": "cross-env DEBUG=todo-api:* node ./bin/www",
     "test": "npm run test:base -- --tap | tap-nyan",
     "test:base": "cross-env NODE_ENV=test nyc ava --compilers js:babel-register -v",
-    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "lint": "eslint .",
+    "precommit": "npm run lint"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -23,6 +25,13 @@
     "ava": "^0.18.2",
     "codecov": "^2.1.0",
     "cross-env": "^4.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.2.0",
+    "husky": "^0.13.3",
     "nyc": "^10.2.0",
     "supertest": "^3.0.0",
     "tap-nyan": "^1.1.0"

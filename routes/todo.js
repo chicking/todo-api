@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
 router
   .get('/', (req, res) => {
@@ -24,4 +24,4 @@ router
     })
   })
 
-module.exports = router;
+module.exports = router
