@@ -22,9 +22,6 @@
   "devDependencies": {
     "ava": "^0.18.2",
     "babel-cli": "^6.24.0",
-    "babel-core": "^6.24.0",
-    "babel-preset-es2015-node": "^6.1.1",
-    "babel-register": "^6.24.0",
     "codecov": "^2.1.0",
     "cross-env": "^4.0.0",
     "eslint": "^3.19.0",
@@ -42,11 +39,6 @@
     "require": [
       "babel-register"
     ],
-    "babel": {
-      "babelrc": true,
-      "presets": [
-        "@ava/stage-4"
-      ]
-    }
+    "babel": "inherit"
   }
 }
