@@ -1,13 +1,13 @@
 {
   "name": "todo-api",
   "description": "A Todo api server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "gongzza <gz.us.to@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "cross-env DEBUG=todo-api:* node ./bin/www",
+    "start": "cross-env DEBUG=todo-api:* babel-node ./bin/www",
     "test": "npm run test:base -- --tap | tap-nyan",
-    "test:base": "cross-env NODE_ENV=test nyc ava --compilers js:babel-register -v",
+    "test:base": "cross-env NODE_ENV=test nyc ava -v",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "lint": "eslint .",
     "precommit": "npm run lint"
@@ -17,12 +17,14 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "morgan": "~1.8.1",
-    "pug": "~2.0.0-beta11",
-    "serve-favicon": "~2.4.2"
+    "morgan": "~1.8.1"
   },
   "devDependencies": {
     "ava": "^0.18.2",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-preset-es2015-node": "^6.1.1",
+    "babel-register": "^6.24.0",
     "codecov": "^2.1.0",
     "cross-env": "^4.0.0",
     "eslint": "^3.19.0",
@@ -35,5 +37,16 @@
     "nyc": "^10.2.0",
     "supertest": "^3.0.0",
     "tap-nyan": "^1.1.0"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": {
+      "babelrc": true,
+      "presets": [
+        "@ava/stage-4"
+      ]
+    }
   }
 }
