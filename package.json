@@ -5,7 +5,8 @@
   "author": "gongzza <gz.us.to@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "cross-env DEBUG=todo-api:* babel-node ./bin/www",
+    "start": "babel-node bin/www",
+    "dev": "cross-env DEBUG=todo-api:* nodemon bin/www -exec babel-node",
     "test": "npm run test:base -- --tap | tap-nyan",
     "test:base": "cross-env NODE_ENV=test nyc ava -v",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
@@ -31,6 +32,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.13.3",
+    "nodemon": "^1.11.0",
     "nyc": "^10.2.0",
     "supertest": "^3.0.0",
     "tap-nyan": "^1.1.0"
