@@ -1,12 +1,12 @@
 import express from 'express'
-import todoService from '../services/TodoService'
+import todo from '../models/todo'
 
-var debug = require('debug')('todo-api:TodoController')
+var debug = require('debug')('todo-api:todo-controller')
 var router = express.Router()
 
 router.get('/', async (req, res) => {
   debug('/')
-  const todos = await todoService.list()
+  const todos = await todo.find()
   res.json({todos})
 })
 

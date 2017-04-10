@@ -1,4 +1,4 @@
-var debug = require('debug')('todo-api:Todo')
+var debug = require('debug')('todo-api:todo-model')
 // mongoose schema
 
 const todos = [
@@ -28,6 +28,8 @@ function find() {
   })
 }
 
-export default {
+const model = {
   find
 }
+
+export default model

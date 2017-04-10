@@ -1,4 +1,4 @@
-var debug = require('debug')('todo-api:Category')
+var debug = require('debug')('todo-api:category-model')
 // mongoose schema
 
 const categories = [
@@ -25,6 +25,8 @@ function find() {
   })
 }
 
-export default {
+const model = {
   find
 }
+
+export default model
