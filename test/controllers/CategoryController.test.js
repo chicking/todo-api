@@ -1,12 +1,11 @@
 import test from 'ava'
-import request from 'supertest'
-import app from '../../app'
+import {req} from '../helpers/utils'
 
 test('category', async t => {
-  const res = await request(app)
+  const res = await req()
     .get('/api/category')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  t.is(res.body.categories.length, 3)
+  t.is(res.body.categories.length, 0)
 })

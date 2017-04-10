@@ -1,0 +1,15 @@
+
+default:
+  protocol: mongodb
+  host: ds143030.mlab.com
+  port: 43030
+  user: chicking
+  pwd: Chicking
+  database: chicking-todo
+  options:
+    server:
+      poolSize: 5
+
+production:
+  user: #{process.env.DB_USERNAME}
+  pwd: #{process.env.DB_PASSWORD}

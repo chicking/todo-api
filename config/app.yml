@@ -1,0 +1,8 @@
+
+default:
+  port: 3000
+  logLevel: dev
+
+production:
+  port: #{process.env.PORT}
+  logLevel: combined
