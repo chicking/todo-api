@@ -29,6 +29,10 @@ export function connect(cb) {
   mongoose.connect(url, config.db.options)
 }
 
+export function getDB() {
+  return db
+}
+
 export function disconnect(cb) {
   db = null
   mongoose.disconnect(cb)
@@ -36,6 +40,16 @@ export function disconnect(cb) {
 
 export function collection(name) {
   return db.collection(name)
+}
+
+export function fixtures(name, data) {
+  return new Promise((resolve, reject) => {
+    const model = name[0].toUpperCase() + name.substring(1)
+    db.models[model].collection.insert(data.collections[name], (err, docs) => {
+      if (err) return reject(err)
+      resolve(docs)
+    })
+  })
 }
 
 export function getNextId(collectionName, fieldName = '_id') {

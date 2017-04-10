@@ -17,3 +17,10 @@ test.cb.after(t => {
 export function req() {
   return request(app)
 }
+
+export function fixtures(data) {
+  var names = Object.keys(data.collections)
+  return Promise.all(
+    names.map(name => db.fixtures(name, data))
+  )
+}

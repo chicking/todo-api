@@ -1,0 +1,15 @@
+{
+  "collections": {
+    "category": [
+      {
+        "title": "Category 3"
+      },
+      {
+        "title": "Category 2"
+      },
+      {
+        "title": "Category 1"
+      }
+    ]
+  }
+}

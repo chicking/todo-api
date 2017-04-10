@@ -7,5 +7,5 @@ test('category', async t => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  t.is(res.body.categories.length, 0)
+  t.true(Array.isArray(res.body.categories))
 })

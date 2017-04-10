@@ -6,7 +6,8 @@ var Schema = mongoose.Schema({
   created_at: {type: Date, default: Date.now},
   updated_at: {type: Date}
 }, {
-  versionKey: false
+  versionKey: false,
+  collection: 'category'
 })
 
 Schema.pre('save', function(next) {

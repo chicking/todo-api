@@ -6,5 +6,5 @@ import * as TodoService from '../../server/services/TodoService'
 test('list', async t => {
   const todos = await TodoService.list()
 
-  t.is(todos.length, 0)
+  t.true(Array.isArray(todos))
 })
