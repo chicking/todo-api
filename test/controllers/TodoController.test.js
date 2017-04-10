@@ -1,5 +1,15 @@
 import test from 'ava'
-import {req} from '../helpers/utils'
+import {req, fixtures, removeAll} from '../helpers/utils'
+
+import TodoFixtures from '../fixtures/todo'
+
+test.beforeEach(() => {
+  return fixtures(TodoFixtures)
+})
+
+test.afterEach(() => {
+  return removeAll('todo')
+})
 
 test('todo', async t => {
   const res = await req()
@@ -7,5 +17,8 @@ test('todo', async t => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  t.is(res.body.todos.length, 0)
+  const todos = res.body.todos
+
+  t.true(Array.isArray(todos))
+  t.is(todos.length, 3)
 })

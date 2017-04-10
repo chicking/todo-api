@@ -1,5 +1,15 @@
 import test from 'ava'
-import {req} from '../helpers/utils'
+import {req, fixtures, removeAll} from '../helpers/utils'
+
+import CategoryFixtures from '../fixtures/category'
+
+test.beforeEach(() => {
+  return fixtures(CategoryFixtures)
+})
+
+test.afterEach(() => {
+  return removeAll('category')
+})
 
 test('category', async t => {
   const res = await req()
@@ -7,5 +17,8 @@ test('category', async t => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  t.true(Array.isArray(res.body.categories))
+  const categories = res.body.categories
+
+  t.true(Array.isArray(categories))
+  t.is(categories.length, 3)
 })

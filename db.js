@@ -52,6 +52,16 @@ export function fixtures(name, data) {
   })
 }
 
+export function removeAll(name) {
+  return new Promise((resolve, reject) => {
+    const model = name[0].toUpperCase() + name.substring(1)
+    db.models[model].collection.remove({}, (err, docs) => {
+      if (err) return reject(err)
+      resolve(docs)
+    })
+  })
+}
+
 export function getNextId(collectionName, fieldName = '_id') {
   return new Promise((resolve, reject) => {
     counters.findAndModify(

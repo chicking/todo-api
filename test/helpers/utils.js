@@ -24,3 +24,7 @@ export function fixtures(data) {
     names.map(name => db.fixtures(name, data))
   )
 }
+
+export function removeAll(name) {
+  return db.removeAll(name)
+}
