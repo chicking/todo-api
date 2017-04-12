@@ -1,18 +1,22 @@
 import test from 'ava'
-import {req, fixtures, removeAll} from '../helpers/utils'
+import * as utils from '../helpers/utils'
 
-import CategoryFixtures from '../fixtures/category'
-
-test.beforeEach(() => {
-  return fixtures(CategoryFixtures)
+test.beforeEach(t => {
+  const categories = utils.mocks({
+    title: '{{lorem.word}}'
+  }, 3)
+  return utils.fixtures('Category', categories)
+    .then(docs => {
+      t.context.docs = docs
+    })
 })
 
-test.afterEach(() => {
-  return removeAll('category')
+test.afterEach(t => {
+  return utils.removeAll('Category', t.context.docs)
 })
 
 test('category', async t => {
-  const res = await req()
+  const res = await utils.req()
     .get('/api/category')
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -20,5 +24,7 @@ test('category', async t => {
   const categories = res.body.categories
 
   t.true(Array.isArray(categories))
-  t.is(categories.length, 3)
+  t.context.docs.ops.forEach(doc => {
+    t.true(categories.some(category => category.title === doc.title))
+  })
 })

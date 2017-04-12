@@ -1,18 +1,23 @@
 import test from 'ava'
-import {req, fixtures, removeAll} from '../helpers/utils'
+import * as utils from '../helpers/utils'
 
-import TodoFixtures from '../fixtures/todo'
-
-test.beforeEach(() => {
-  return fixtures(TodoFixtures)
+test.beforeEach(t => {
+  const todos = utils.mocks({
+    content: '{{lorem.sentence}}',
+    done: '{{random.boolean}}'
+  }, 3)
+  return utils.fixtures('Todo', todos)
+    .then(docs => {
+      t.context.docs = docs
+    })
 })
 
-test.afterEach(() => {
-  return removeAll('todo')
+test.afterEach(t => {
+  return utils.removeAll('Todo', t.context.docs)
 })
 
 test('todo', async t => {
-  const res = await req()
+  const res = await utils.req()
     .get('/api/todo')
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -20,5 +25,7 @@ test('todo', async t => {
   const todos = res.body.todos
 
   t.true(Array.isArray(todos))
-  t.is(todos.length, 3)
+  t.context.docs.ops.forEach(doc => {
+    t.true(todos.some(todo => todo.content === doc.content))
+  })
 })

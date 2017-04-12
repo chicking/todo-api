@@ -1,11 +1,11 @@
 var mongoose = require('mongoose')
 
 var Schema = mongoose.Schema({
-  _id: {type: Number, required: true},
+  _id: Number,
   content: {type: String, required: true},
-  done: { type: Boolean, default: false },
+  done: {type: Boolean, default: false},
   created_at: {type: Date, default: Date.now},
-  updated_at: {type: Date}
+  updated_at: Date
 }, {
   versionKey: false,
   collection: 'todo'
@@ -17,4 +17,4 @@ Schema.pre('save', function(next) {
 })
 
 const Todo = mongoose.model('Todo', Schema)
-export default Todo
+module.exports = Todo

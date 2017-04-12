@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 
 var Schema = mongoose.Schema({
-  _id: {type: Number, required: true},
+  _id: Number,
   title: {type: String, required: true},
   created_at: {type: Date, default: Date.now},
-  updated_at: {type: Date}
+  updated_at: Date
 }, {
   versionKey: false,
   collection: 'category'
@@ -16,4 +16,4 @@ Schema.pre('save', function(next) {
 })
 
 const Category = mongoose.model('Category', Schema)
-export default Category
+module.exports = Category
