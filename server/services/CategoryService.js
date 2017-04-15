@@ -1,5 +1,5 @@
 import Category from '../models/Category'
 
-export function list() {
-  return Category.find().exec()
+export function list(userId) {
+  return Category.find({user_id: userId}).exec()
 }

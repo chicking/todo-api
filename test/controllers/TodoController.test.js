@@ -3,6 +3,7 @@ import * as utils from '../helpers/utils'
 
 test.beforeEach(t => {
   const todos = utils.mocks({
+    user_id: 1,
     content: '{{lorem.sentence}}',
     done: '{{random.boolean}}'
   }, 3)
@@ -19,6 +20,7 @@ test.afterEach(t => {
 test('todo', async t => {
   const res = await utils.req()
     .get('/api/todo')
+    .set('Authorization', `Bearer ${t.context.token}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 

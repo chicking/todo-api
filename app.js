@@ -1,3 +1,4 @@
+/* global config */
 import express from 'express'
 import path from 'path'
 import logger from 'morgan'
@@ -10,13 +11,14 @@ var app = express()
 
 // uncomment after placing your favicon in /public
 if (app.get('env') !== 'test') {
-  /* global config */
   app.use(logger(config.app.logLevel))
 }
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.set('secret', config.jwt.secret)
 
 app.use('/api', require('./server/controllers'))
 

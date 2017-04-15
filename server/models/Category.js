@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 var Schema = mongoose.Schema({
   _id: Number,
+  user_id: {type: Number, required: true},
   title: {type: String, required: true},
   created_at: {type: Date, default: Date.now},
   updated_at: Date

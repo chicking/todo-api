@@ -1,11 +1,18 @@
 import test from 'ava'
 import request from 'supertest'
 import faker from 'faker'
+import jwt from 'jsonwebtoken'
+
+import user from '../fixtures/user'
 
 global.config = require('konfig')()
 
 var db = require('../../db')
 var app = require('../../app')
+
+test.beforeEach(t => {
+  t.context.token = getToken()
+})
 
 test.cb.before(t => {
   db.connect(t.end)
@@ -14,6 +21,10 @@ test.cb.before(t => {
 test.cb.after(t => {
   db.disconnect(t.end)
 })
+
+export function getToken() {
+  return jwt.sign(user, config.jwt.secret)
+}
 
 export function req() {
   return request(app)

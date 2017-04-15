@@ -5,12 +5,15 @@ default:
     server:
       poolSize: 5
 
-test:
+test: &test
   host: ds157390.mlab.com
   port: 57390
   user: test
   pwd: test
   database: chicking-todo-test
+
+development:
+  <<: *test
 
 production:
   host: ${process.env.DB_HOST}

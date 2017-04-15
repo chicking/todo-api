@@ -21,8 +21,8 @@ export function connect(cb) {
 
   db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
-  db.once('open', function() {
-    counters = db.collection('counters')
+  db.once('open', () => {
+    counters = collection('counters')
     cb()
   })
 
@@ -73,7 +73,6 @@ export function getNextId(collectionName, fieldName = '_id') {
         if (err) {
           return reject(err)
         }
-
         debug(result.value)
         resolve(result.value.seq)
       }

@@ -6,7 +6,7 @@ var router = express.Router()
 
 router.get('/', async (req, res) => {
   debug('/')
-  const categories = await CategoryService.list()
+  const categories = await CategoryService.list(req.user._id)
   res.json({categories})
 })
 

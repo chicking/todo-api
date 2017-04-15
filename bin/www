@@ -4,10 +4,13 @@
  * Module dependencies.
  */
 
-
 if (process.env.DEBUG && process.env.DEBUG.includes(';')) {
   process.env.DEBUG = process.env.DEBUG.replace(';', ':')
 }
+
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
+})
 
 global.config = require('konfig')()
 

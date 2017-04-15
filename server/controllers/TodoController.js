@@ -6,7 +6,7 @@ var router = express.Router()
 
 router.get('/', async (req, res) => {
   debug('/')
-  const todos = await TodoService.list()
+  const todos = await TodoService.list(req.user._id)
   res.json({todos})
 })
 

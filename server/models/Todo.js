@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var Schema = mongoose.Schema({
   _id: Number,
+  user_id: {type: Number, required: true},
   content: {type: String, required: true},
   done: {type: Boolean, default: false},
   created_at: {type: Date, default: Date.now},

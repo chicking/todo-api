@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "babel-node bin/www",
-    "dev": "cross-env DEBUG=todo-api:* nodemon bin/www -exec babel-node",
+    "dev": "cross-env DEBUG=todo-api:* nodemon bin/www --exec babel-node",
     "test": "npm run test:base -- --tap | tap-nyan",
     "test:base": "cross-env NODE_ENV=test nyc ava -v",
     "test:watch": "cross-env NODE_ENV=test ava --verbose --watch",
@@ -19,6 +19,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "jsonwebtoken": "^7.3.0",
     "konfig": "^0.2.1",
     "mongoose": "^4.9.4",
     "morgan": "~1.8.1"

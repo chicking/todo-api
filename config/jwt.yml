@@ -1,0 +1,6 @@
+default:
+  secret: Chicking@Secret
+  expiresIn: 1d # expires in 24 hours
+
+production:
+  secret: #{process.env.SECRET}

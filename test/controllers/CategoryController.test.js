@@ -3,6 +3,7 @@ import * as utils from '../helpers/utils'
 
 test.beforeEach(t => {
   const categories = utils.mocks({
+    user_id: 1,
     title: '{{lorem.word}}'
   }, 3)
   return utils.fixtures('Category', categories)
@@ -18,6 +19,7 @@ test.afterEach(t => {
 test('category', async t => {
   const res = await utils.req()
     .get('/api/category')
+    .set('Authorization', `Bearer ${t.context.token}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
