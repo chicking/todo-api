@@ -1,5 +1,8 @@
 {
   "presets": [
-    "@ava/stage-4"
+    "es2015-node"
+  ],
+  "plugins": [
+    "transform-async-to-generator"
   ]
 }

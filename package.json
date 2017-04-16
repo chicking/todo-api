@@ -11,10 +11,12 @@
     "test:base": "cross-env NODE_ENV=test nyc ava -v",
     "test:watch": "cross-env NODE_ENV=test ava --verbose --watch",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
-    "lint": "eslint .",
-    "precommit": "npm run lint"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-es2015-node": "^6.1.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
@@ -26,7 +28,6 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
-    "babel-cli": "^6.24.0",
     "codecov": "^2.1.0",
     "cross-env": "^4.0.0",
     "eslint": "^3.19.0",
@@ -36,7 +37,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "faker": "^4.1.0",
-    "husky": "^0.13.3",
     "nodemon": "^1.11.0",
     "nyc": "^10.2.0",
     "supertest": "^3.0.0",
