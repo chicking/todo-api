@@ -17,8 +17,8 @@ export function authenticated(req, res, next) {
           message: 'Failed to authenticate token.'
         })
       }
-
       req.user = decoded._doc
+      delete req.user.password
       next()
     })
   } else {
