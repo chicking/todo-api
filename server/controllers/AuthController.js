@@ -6,23 +6,17 @@ import jwt from 'jsonwebtoken'
 var debug = require('debug')('todo-api:AuthController')
 var router = express.Router()
 
-router.get('/', (req, res) => {
-  debug('/')
-})
-
 router.post('/login', async (req, res) => {
   debug('/login', req.body)
   const user = await UserService.findUser(req.body.name)
 
   debug(user)
   if (!user) {
-    res.json({
-      success: false,
+    res.status(404).json({
       message: 'Authentication failed. User not found.'
     })
   } else if (user.password !== req.body.password) {
-    res.json({
-      success: false,
+    res.status(401).json({
       message: 'Authentication failed. Wrong password.'
     })
   } else {
@@ -31,28 +25,23 @@ router.post('/login', async (req, res) => {
       expiresIn: config.jwt.expiresIn
     })
     res.json({
-      success: true,
-      message: 'Enjoy your token!',
-      token
+      token,
+      user
     })
   }
 })
 
-router.get('/setup', async (req, res) => {
-  debug('/setup')
-  const alex = {
-    name: 'Alex Lim',
-    password: 'Password'
+router.post('/regist', async (req, res) => {
+  debug('/regist')
+
+  const user = {
+    name: req.body.name,
+    password: req.body.password
   }
 
-  try {
-    await UserService.create(alex)
-  } catch (err) {
-    console.log(err)
-    return res.json({error: true})
-  }
+  await UserService.create(user)
 
-  res.json({success: true})
+  res.status(201).json({success: true})
 })
 
 module.exports = router

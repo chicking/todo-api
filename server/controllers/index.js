@@ -10,6 +10,7 @@ router.get('/me', (req, res) => {
     user: req.user
   })
 })
+
 router.use('/todo', require('./TodoController'))
 router.use('/category', require('./CategoryController'))
 
