@@ -37,6 +37,13 @@ router.post('/login', async (req, res) => {
 router.post('/regist', async (req, res) => {
   debug('/regist')
 
+  const searchedUser = await UserService.findUser(req.body.name)
+  if (searchedUser) {
+    return res.status(422).json({
+      success: false
+    })
+  }
+
   const user = {
     name: req.body.name,
     password: req.body.password

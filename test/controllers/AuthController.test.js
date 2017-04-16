@@ -39,6 +39,13 @@ test.serial('regist', () => {
     .expect(201)
 })
 
+test.serial('regist#422', () => {
+  return utils.req()
+    .post('/api/auth/regist')
+    .send(user)
+    .expect(422)
+})
+
 test.serial('login', async t => {
   const res = await utils.req()
     .post('/api/auth/login')
