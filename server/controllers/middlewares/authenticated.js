@@ -10,15 +10,14 @@ export function authenticated(req, res, next) {
     token = token[token.length > 1 ? 1 : 0].trim()
   }
   if (token) {
-    jwt.verify(token, config.jwt.secret, (err, decoded) => {
+    jwt.verify(token, config.jwt.secret, (err, user) => {
       if (err) {
         return res.json({
           success: false,
           message: 'Failed to authenticate token.'
         })
       }
-      req.user = decoded._doc
-      delete req.user.password
+      req.user = user
       next()
     })
   } else {

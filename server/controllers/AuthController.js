@@ -20,10 +20,15 @@ router.post('/login', async (req, res) => {
       message: 'Authentication failed. Wrong password.'
     })
   } else {
-    delete user.password
-    var token = jwt.sign(user, config.jwt.secret, {
+    const signUser = {
+      _id: user._id,
+      name: user.name
+    }
+
+    var token = jwt.sign(signUser, config.jwt.secret, {
       expiresIn: config.jwt.expiresIn
     })
+
     res.json({
       token
     })

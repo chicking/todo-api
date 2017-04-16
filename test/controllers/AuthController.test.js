@@ -32,13 +32,11 @@ test('no token', async t => {
   t.pass()
 })
 
-test.serial('regist', async t => {
-  const res = await utils.req()
+test.serial('regist', () => {
+  return utils.req()
     .post('/api/auth/regist')
     .send(user)
     .expect(201)
-
-  t.pass()
 })
 
 test.serial('login', async t => {
@@ -61,26 +59,22 @@ test.serial('me', async t => {
   t.is(user.name, res.body.user.name)
 })
 
-test.serial('wrong password', async t => {
-  const res = await utils.req()
+test.serial('wrong password', () => {
+  return utils.req()
     .post('/api/auth/login')
     .send({
       name: user.name,
       password: 'passwd'
     })
     .expect(401)
-
-  t.pass()
 })
 
-test('not found', async t => {
-  const res = await utils.req()
+test('not found', () => {
+  return utils.req()
     .post('/api/auth/login')
     .send({
       name: 'not found user',
       password: 'passwd'
     })
     .expect(404)
-
-  t.pass()
 })
