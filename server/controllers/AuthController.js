@@ -25,8 +25,7 @@ router.post('/login', async (req, res) => {
       expiresIn: config.jwt.expiresIn
     })
     res.json({
-      token,
-      user
+      token
     })
   }
 })
