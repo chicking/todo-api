@@ -15,10 +15,6 @@ var url = config.db.protocol + '://' +
 export function connect(cb) {
   debug(url)
 
-  if (db != null) {
-    return cb()
-  }
-
   db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
   db.once('open', () => {
@@ -40,26 +36,6 @@ export function disconnect(cb) {
 
 export function collection(name) {
   return db.collection(name)
-}
-
-export function fixtures(name, data) {
-  return new Promise((resolve, reject) => {
-    const model = name[0].toUpperCase() + name.substring(1)
-    db.models[model].collection.insert(data.collections[name], (err, docs) => {
-      if (err) return reject(err)
-      resolve(docs)
-    })
-  })
-}
-
-export function removeAll(name) {
-  return new Promise((resolve, reject) => {
-    const model = name[0].toUpperCase() + name.substring(1)
-    db.models[model].collection.remove({}, (err, docs) => {
-      if (err) return reject(err)
-      resolve(docs)
-    })
-  })
 }
 
 export function getNextId(collectionName, fieldName = '_id') {
