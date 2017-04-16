@@ -1,5 +1,5 @@
 import express from 'express'
-import {authenticated} from './middlewares/authenticated'
+import {authenticated} from './middlewares'
 
 var router = express.Router()
 router.use('/auth', require('./AuthController'))
