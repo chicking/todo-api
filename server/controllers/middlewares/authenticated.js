@@ -10,14 +10,14 @@ export function authenticated(req, res, next) {
     token = token[token.length > 1 ? 1 : 0].trim()
   }
   if (token) {
-    jwt.verify(token, config.jwt.secret, (err, user) => {
+    jwt.verify(token, config.jwt.secret, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
           message: 'Failed to authenticate token.'
         })
       }
-      req.user = user
+      req.user = decoded.user
       next()
     })
   } else {

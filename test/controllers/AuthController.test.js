@@ -57,6 +57,7 @@ test.serial('me', async t => {
     .expect(200)
 
   t.is(user.name, res.body.user.name)
+  t.falsy(res.body.user.password)
 })
 
 test.serial('wrong password', () => {

@@ -12,27 +12,26 @@ router.post('/login', async (req, res) => {
 
   debug(user)
   if (!user) {
-    res.status(404).json({
+    return res.status(404).json({
       message: 'Authentication failed. User not found.'
     })
-  } else if (user.password !== req.body.password) {
-    res.status(401).json({
-      message: 'Authentication failed. Wrong password.'
-    })
-  } else {
-    const signUser = {
-      _id: user._id,
-      name: user.name
-    }
-
-    var token = jwt.sign(signUser, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn
-    })
-
-    res.json({
-      token
-    })
   }
+
+  user.comparePassword(req.body.password, (err, isMatch) => {
+    if (!err && isMatch) {
+      var token = jwt.sign({user: user.toJSON()}, config.jwt.secret, {
+        expiresIn: config.jwt.expiresIn
+      })
+
+      res.json({
+        token
+      })
+    } else {
+      res.status(401).json({
+        message: 'Authentication failed. Wrong password.'
+      })
+    }
+  })
 })
 
 router.post('/regist', async (req, res) => {
