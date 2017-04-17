@@ -4,14 +4,13 @@ import {authenticated} from './middlewares'
 var router = express.Router()
 router.use('/auth', require('./AuthController'))
 
-router.use(authenticated)
-router.get('/me', (req, res) => {
+router.get('/me', authenticated, (req, res) => {
   res.json({
     user: req.user
   })
 })
 
-router.use('/todo', require('./TodoController'))
-router.use('/category', require('./CategoryController'))
+router.use('/todo', authenticated, require('./TodoController'))
+router.use('/category', authenticated, require('./CategoryController'))
 
 module.exports = router
