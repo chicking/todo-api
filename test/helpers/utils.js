@@ -10,10 +10,6 @@ global.config = require('konfig')()
 var db = require('../../db')
 var app = require('../../app')
 
-test.beforeEach(t => {
-  t.context.token = getToken()
-})
-
 test.cb.before(t => {
   db.connect(t.end)
 })
@@ -22,12 +18,14 @@ test.cb.after(t => {
   db.disconnect(t.end)
 })
 
-export function getToken() {
-  return jwt.sign(user, config.jwt.secret)
+export const token = jwt.sign(user, config.jwt.secret)
+
+export function req(method, url) {
+  return request(app)[method](`/api/${url}`)
 }
 
-export function req() {
-  return request(app)
+export function auth(method, url) {
+  return this.req(method, url).set('Authorization', `Bearer ${token}`)
 }
 
 function getModel(name) {
@@ -44,10 +42,10 @@ export function fixtures(name, data) {
   })
 }
 
-export function removeAll(name, docs) {
+export function removeAll(name) {
   const Model = getModel(name)
   return new Promise((resolve, reject) => {
-    Model.collection.remove({_id: {$in: docs.insertedIds}}, (err, docs) => {
+    Model.collection.remove({}, (err, docs) => {
       if (err) return reject(err)
       resolve(docs)
     })

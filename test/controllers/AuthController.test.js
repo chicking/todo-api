@@ -1,6 +1,5 @@
 import test from 'ava'
 import * as utils from '../helpers/utils'
-import User from '../../server/models/User'
 
 const user = utils.mock({
   name: '{{name.findName}}',
@@ -9,46 +8,31 @@ const user = utils.mock({
 
 let token = null
 
-test.after(() => {
-  User.remove({name: user.name})
+test.before(() => {
+  return utils.removeAll('User')
 })
 
-// test.beforeEach(t => {
-//   t.context.user = utils.mock({
-//     name: '{{name.findName}}',
-//     password: 'Password'
-//   })
-// })
-//
-// test.afterEach(async t => {
-//   await User.remove({name: t.context.user.name}).exec()
-// })
-
 test('no token', async t => {
-  const res = await utils.req()
-    .get('/api/me')
+  const res = await utils.req('get', '/me')
     .expect(403)
 
   t.pass()
 })
 
 test.serial('regist', () => {
-  return utils.req()
-    .post('/api/auth/regist')
+  return utils.req('post', '/auth/regist')
     .send(user)
     .expect(201)
 })
 
 test.serial('regist#422', () => {
-  return utils.req()
-    .post('/api/auth/regist')
+  return utils.req('post', '/auth/regist')
     .send(user)
     .expect(422)
 })
 
 test.serial('login', async t => {
-  const res = await utils.req()
-    .post('/api/auth/login')
+  const res = await utils.req('post', '/auth/login')
     .send(user)
     .expect(200)
 
@@ -58,8 +42,7 @@ test.serial('login', async t => {
 })
 
 test.serial('me', async t => {
-  const res = await utils.req()
-    .get('/api/me')
+  const res = await utils.req('get', '/me')
     .set('Authorization', `Bearer ${token}`)
     .expect(200)
 
@@ -67,9 +50,8 @@ test.serial('me', async t => {
   t.falsy(res.body.user.password)
 })
 
-test.serial('wrong password', () => {
-  return utils.req()
-    .post('/api/auth/login')
+test.serial('login#401', () => {
+  return utils.req('post', '/auth/login')
     .send({
       name: user.name,
       password: 'passwd'
@@ -77,9 +59,8 @@ test.serial('wrong password', () => {
     .expect(401)
 })
 
-test('not found', () => {
-  return utils.req()
-    .post('/api/auth/login')
+test('login#404', () => {
+  return utils.req('post', '/auth/login')
     .send({
       name: 'not found user',
       password: 'passwd'

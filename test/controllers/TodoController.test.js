@@ -1,26 +1,25 @@
 import test from 'ava'
 import * as utils from '../helpers/utils'
 
-test.beforeEach(t => {
+test.before(() => {
+  return utils.removeAll('Todo')
+})
+
+test.beforeEach(async t => {
   const todos = utils.mocks({
     user_id: 1,
     content: '{{lorem.sentence}}',
     done: '{{random.boolean}}'
   }, 3)
+
   return utils.fixtures('Todo', todos)
     .then(docs => {
       t.context.docs = docs
     })
 })
 
-test.afterEach(t => {
-  return utils.removeAll('Todo', t.context.docs)
-})
-
 test('todo', async t => {
-  const res = await utils.req()
-    .get('/api/todo')
-    .set('Authorization', `Bearer ${t.context.token}`)
+  const res = await utils.auth('get', '/todo')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
