@@ -9,3 +9,11 @@ after_success:
   - npm run report-coverage
 notifications:
   slack: godofchicken:BqRKwRJXLp7VjtggROq6riqm
+env:
+  - CXX=g++-5
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-5
