@@ -1,5 +1,6 @@
 /* global config */
 import jwt from 'jsonwebtoken'
+import {newError} from '../../utils'
 
 export function authenticated(req, res, next) {
   var token = req.headers.Authorization || req.headers.authorization
@@ -21,10 +22,6 @@ export function authenticated(req, res, next) {
       next()
     })
   } else {
-    return res.status(403)
-      .json({
-        success: false,
-        message: 'No token provided.'
-      })
+    next(newError(403, 'no token'))
   }
 }

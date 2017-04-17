@@ -2,19 +2,18 @@
 import express from 'express'
 import * as UserService from '../services/UserService'
 import jwt from 'jsonwebtoken'
+import {wrap, newError} from '../utils'
 
 var debug = require('debug')('todo-api:AuthController')
 var router = express.Router()
 
-router.post('/login', async (req, res) => {
+router.post('/login', wrap(async (req, res, next) => {
   debug('/login', req.body)
   const user = await UserService.findUser(req.body.name)
 
   debug(user)
   if (!user) {
-    return res.status(404).json({
-      message: 'Authentication failed. User not found.'
-    })
+    throw newError(404, 'Not Found')
   }
 
   user.comparePassword(req.body.password, (err, isMatch) => {
@@ -27,21 +26,17 @@ router.post('/login', async (req, res) => {
         token
       })
     } else {
-      res.status(401).json({
-        message: 'Authentication failed. Wrong password.'
-      })
+      next(newError(401, 'Wrong password'))
     }
   })
-})
+}))
 
-router.post('/regist', async (req, res) => {
+router.post('/regist', wrap(async (req, res) => {
   debug('/regist')
 
-  const searchedUser = await UserService.findUser(req.body.name)
-  if (searchedUser) {
-    return res.status(422).json({
-      success: false
-    })
+  const existUser = await UserService.findUser(req.body.name)
+  if (existUser) {
+    throw newError(422, 'exist username')
   }
 
   const user = {
@@ -52,6 +47,6 @@ router.post('/regist', async (req, res) => {
   await UserService.create(user)
 
   res.status(201).json({success: true})
-})
+}))
 
 module.exports = router
