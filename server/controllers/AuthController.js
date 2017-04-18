@@ -2,7 +2,7 @@
 import express from 'express'
 import * as UserService from '../services/UserService'
 import jwt from 'jsonwebtoken'
-import {wrap, newError} from '../utils'
+import {wrap, error} from '../utils'
 
 var debug = require('debug')('todo-api:AuthController')
 var router = express.Router()
@@ -13,7 +13,7 @@ router.post('/login', wrap(async (req, res, next) => {
 
   debug(user)
   if (!user) {
-    throw newError(404, 'Not Found')
+    throw error(404, 'Not Found')
   }
 
   user.comparePassword(req.body.password, (err, isMatch) => {
@@ -26,7 +26,7 @@ router.post('/login', wrap(async (req, res, next) => {
         token
       })
     } else {
-      next(newError(401, 'Wrong password'))
+      next(error(401, 'Wrong password'))
     }
   })
 }))
@@ -36,7 +36,7 @@ router.post('/regist', wrap(async (req, res) => {
 
   const existUser = await UserService.findUser(req.body.name)
   if (existUser) {
-    throw newError(422, 'exist username')
+    throw error(422, 'exist username')
   }
 
   const user = {

@@ -1,11 +1,9 @@
 
 export const wrap = fn => (...args) => fn(...args).catch(args[2])
 
-export function newError(status, message, data) {
+export function error(status, message, data) {
   const err = new Error(message)
   err.status = status
-  return {
-    err,
-    data
-  }
+  err.data = data
+  return err
 }

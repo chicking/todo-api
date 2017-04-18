@@ -26,11 +26,11 @@ app.use('/api', require('./server/controllers'))
 app.use(function(req, res, next) {
   var err = new Error('Not Found')
   err.status = 404
-  next({err})
+  next(err)
 })
 
 // error handler
-app.use(function({err, data}, req, res, next) {
+app.use(function(err, req, res, next) {
   debug(err)
   // set locals, only providing error in development
   res.locals.message = err.message
@@ -40,7 +40,7 @@ app.use(function({err, data}, req, res, next) {
   res.status(err.status || 500)
   res.json({
     message: err.message,
-    data
+    data: err.data
   })
 })
 
