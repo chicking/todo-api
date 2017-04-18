@@ -1,4 +1,5 @@
-var mongoose = require('mongoose')
+import mongoose from 'mongoose'
+import {getNextId} from '../../db'
 
 var Schema = mongoose.Schema({
   _id: Number,
@@ -12,8 +13,11 @@ var Schema = mongoose.Schema({
   collection: 'todo'
 })
 
-Schema.pre('save', function(next) {
+Schema.pre('save', async function(next) {
   this.updated_at = new Date()
+  if (!this._id) {
+    this._id = await getNextId('todo')
+  }
   next()
 })
 

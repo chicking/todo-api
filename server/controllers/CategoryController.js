@@ -1,13 +1,13 @@
 import express from 'express'
-import * as CategoryService from '../services/CategoryService'
 import {wrap} from '../utils'
+import Category from '../models/Category'
 
 var debug = require('debug')('todo-api:CategoryController')
 var router = express.Router()
 
 router.get('/', wrap(async (req, res) => {
   debug('/')
-  const categories = await CategoryService.list(req.user._id)
+  const categories = await Category.find({user_id: req.user._id}).exec()
   res.json({categories})
 }))
 

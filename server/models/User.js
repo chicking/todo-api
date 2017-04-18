@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import {getNextId} from '../../db'
 
 const SALT_WORK_FACTORY = 10
 
@@ -14,8 +15,12 @@ var Schema = mongoose.Schema({
   collection: 'user'
 })
 
-Schema.pre('save', function (next) {
+Schema.pre('save', async function (next) {
   this.updated_at = new Date()
+
+  if (!this._id) {
+    this._id = await getNextId('todo')
+  }
 
   if (this.isModified('password')) {
     bcrypt.genSalt(SALT_WORK_FACTORY, (err, salt) => {

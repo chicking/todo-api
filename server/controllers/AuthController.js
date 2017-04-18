@@ -1,6 +1,6 @@
 /* global config */
 import express from 'express'
-import * as UserService from '../services/UserService'
+import User from '../models/User'
 import jwt from 'jsonwebtoken'
 import {wrap, error} from '../utils'
 
@@ -9,7 +9,7 @@ var router = express.Router()
 
 router.post('/login', wrap(async (req, res, next) => {
   debug('/login', req.body)
-  const user = await UserService.findUser(req.body.name)
+  const user = await User.findOne({name: req.body.name}).exec()
 
   debug(user)
   if (!user) {
@@ -34,7 +34,7 @@ router.post('/login', wrap(async (req, res, next) => {
 router.post('/regist', wrap(async (req, res) => {
   debug('/regist')
 
-  const existUser = await UserService.findUser(req.body.name)
+  const existUser = await User.findOne({name: req.body.name}).exec()
   if (existUser) {
     throw error(422, 'exist username')
   }
@@ -44,7 +44,7 @@ router.post('/regist', wrap(async (req, res) => {
     password: req.body.password
   }
 
-  await UserService.create(user)
+  await User.create(user)
 
   res.status(201).json({success: true})
 }))
