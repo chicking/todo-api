@@ -13,28 +13,24 @@ test.before(() => {
 })
 
 test('no token', async t => {
-  const res = await utils.req('get', '/me')
-    .expect(403)
+  const res = await utils.req('get', '/me', 403)
 
   t.pass()
 })
 
 test.serial('regist', () => {
-  return utils.req('post', '/auth/regist')
+  return utils.req('post', '/auth/regist', 201)
     .send(user)
-    .expect(201)
 })
 
 test.serial('regist#422', () => {
-  return utils.req('post', '/auth/regist')
+  return utils.req('post', '/auth/regist', 422)
     .send(user)
-    .expect(422)
 })
 
 test.serial('login', async t => {
   const res = await utils.req('post', '/auth/login')
     .send(user)
-    .expect(200)
 
   token = res.body.token
 
@@ -44,26 +40,23 @@ test.serial('login', async t => {
 test.serial('me', async t => {
   const res = await utils.req('get', '/me')
     .set('Authorization', `Bearer ${token}`)
-    .expect(200)
 
   t.is(user.name, res.body.user.name)
   t.falsy(res.body.user.password)
 })
 
 test.serial('login#401', () => {
-  return utils.req('post', '/auth/login')
+  return utils.req('post', '/auth/login', 401)
     .send({
       name: user.name,
       password: 'passwd'
     })
-    .expect(401)
 })
 
 test('login#404', () => {
-  return utils.req('post', '/auth/login')
+  return utils.req('post', '/auth/login', 404)
     .send({
       name: 'not found user',
       password: 'passwd'
     })
-    .expect(404)
 })

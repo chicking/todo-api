@@ -5,7 +5,6 @@ var router = express.Router()
 router.use('/auth', require('./AuthController'))
 
 router.get('/me', authenticated, (req, res) => {
-  console.log(req.user)
   res.json({
     user: req.user
   })

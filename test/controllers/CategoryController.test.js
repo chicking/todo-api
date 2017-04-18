@@ -19,7 +19,6 @@ test.beforeEach(async t => {
 
 test('category', async t => {
   const res = await utils.auth('get', '/category')
-    .expect(200)
     .expect('Content-Type', /application\/json/)
 
   const categories = res.body.categories

@@ -20,12 +20,12 @@ test.cb.after(t => {
 
 export const token = jwt.sign(user, config.jwt.secret)
 
-export function req(method, url) {
-  return request(app)[method](`/api/${url}`)
+export function req(method, url, status = 200) {
+  return request(app)[method](`/api/${url}`).expect(status)
 }
 
-export function auth(method, url) {
-  return this.req(method, url).set('Authorization', `Bearer ${token}`)
+export function auth(method, url, status = 200) {
+  return this.req(method, url, status).set('Authorization', `Bearer ${token}`)
 }
 
 function getModel(name) {
