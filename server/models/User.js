@@ -19,7 +19,7 @@ Schema.pre('save', async function (next) {
   this.updated_at = new Date()
 
   if (!this._id) {
-    this._id = await getNextId('todo')
+    this._id = await getNextId('user')
   }
 
   if (this.isModified('password')) {
