@@ -7,7 +7,6 @@ var router = express.Router()
 
 router.get('/', wrap(async (req, res) => {
   debug('[GET] /')
-  // const todos = await TodoService.list(req.user._id)
   const todos = await Todo.find({user_id: req.user._id}).exec()
   res.json({todos})
 }))
@@ -50,6 +49,22 @@ router.put('/:id', wrap(async (req, res) => {
   }
 
   await todo.save()
+
+  res.json(todo)
+}))
+
+router.delete('/:id', wrap(async (req, res) => {
+  debug(`[delete] /${req.params.id}`)
+  const todo = await Todo.findOne({
+    _id: req.params.id,
+    user_id: req.user._id
+  }).exec()
+
+  if (!todo) {
+    throw error(404, 'Not Found')
+  }
+
+  await todo.remove()
 
   res.json(todo)
 }))

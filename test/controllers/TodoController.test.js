@@ -42,7 +42,7 @@ test.serial('insert', async t => {
   todo_id = todo._id
 })
 
-test.serial('update #content', async t => {
+test.serial('update @content', async t => {
   const mock = utils.mock({
     content: '{{lorem.sentence}}'
   })
@@ -66,4 +66,14 @@ test.serial('update @done', async t => {
   t.not(todo.done, mockTodo.done)
 })
 
-test.skip('delete', async t => {})
+test.serial('delete', async t => {
+  // delete
+  await utils.auth('delete', `/todo/${todo_id}`)
+
+  const res = await utils.auth('get', '/todo')
+
+  const todos = res.body.todos
+
+  t.true(Array.isArray(todos))
+  t.true(todos.every(todo => todo.content !== mockTodo.content))
+})
