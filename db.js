@@ -3,8 +3,16 @@ mongoose.Promise = global.Promise
 
 var debug = require('debug')('todo-api:db')
 
+var CounterSchema = mongoose.Schema({
+  _id: { type: String, required: true },
+  seq: { type: Number, default: 0 }
+}, {
+  versionKey: false
+})
+var Counter = mongoose.model('Counter', CounterSchema)
+
 var db = null
-var counters = null
+// var counters = null
 
 /* global config */
 var url = config.db.protocol + '://' +
@@ -18,7 +26,6 @@ export function connect(cb) {
   db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
   db.once('open', () => {
-    counters = collection('counters')
     cb()
   })
 
@@ -38,20 +45,17 @@ export function collection(name) {
   return db.collection(name)
 }
 
-export function getNextId(collectionName, fieldName = '_id') {
+export function getNextId(_id) {
+  debug(`getNextId ${_id}`)
   return new Promise((resolve, reject) => {
-    counters.findAndModify(
-      {_id: collectionName, field: fieldName},
-      null,
+    Counter.findOneAndUpdate(
+      {_id},
       {$inc: {seq: 1}},
       {upsert: true, new: true},
-      function (err, result) {
-        if (err) {
-          return reject(err)
-        }
-        debug(result.value)
-        resolve(result.value.seq)
-      }
-    )
+      function (err, counter) {
+        if (err) return reject(err)
+        debug(counter)
+        resolve(counter.seq)
+      })
   })
 }
