@@ -4,6 +4,7 @@ import {getNextId} from '../../db'
 var Schema = mongoose.Schema({
   _id: Number,
   user_id: {type: Number, required: true},
+  category_id: {type: Number, default: 1},
   content: {type: String, required: true},
   done: {type: Boolean, default: false},
   created_at: {type: Date, default: Date.now},

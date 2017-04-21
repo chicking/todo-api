@@ -14,6 +14,7 @@ test.before(() => {
 test('list', async t => {
   const mockTodos = utils.mocks({
     user_id: 1,
+    category_id: 1,
     content: '{{lorem.sentence}}',
     done: '{{random.boolean}}'
   }, 3)
