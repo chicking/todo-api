@@ -29,6 +29,18 @@ test('list', async t => {
   })
 })
 
+test('update #404', async t => {
+  const res = await utils.auth('put', '/category/0', 404)
+
+  t.is(res.body.message, 'Not Found')
+})
+
+test('delete #404', async t => {
+  const res = await utils.auth('delete', '/category/0', 404)
+
+  t.is(res.body.message, 'Not Found')
+})
+
 test.serial('insert', async t => {
   const res = await utils.auth('post', '/category', 201)
     .send(mockCategory)

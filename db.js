@@ -32,17 +32,9 @@ export function connect(cb) {
   mongoose.connect(url, config.db.options)
 }
 
-export function getDB() {
-  return db
-}
-
 export function disconnect(cb) {
   db = null
   mongoose.disconnect(cb)
-}
-
-export function collection(name) {
-  return db.collection(name)
 }
 
 export function getNextId(_id) {
