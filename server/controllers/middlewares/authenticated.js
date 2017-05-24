@@ -13,7 +13,7 @@ export function authenticated(req, res, next) {
   if (token) {
     jwt.verify(token, config.jwt.secret, (err, decoded) => {
       if (err) {
-        return res.json({
+        return res.status(401).json({
           success: false,
           message: 'Failed to authenticate token.'
         })

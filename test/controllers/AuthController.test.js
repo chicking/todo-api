@@ -53,6 +53,13 @@ test.serial('login#401', () => {
     })
 })
 
+test('me#401', async t => {
+  const res = await utils.req('get', '/me', 401)
+    .set('Authorization', 'Bearer invalid_token')
+
+  t.false(res.body.success)
+})
+
 test('login#404', () => {
   return utils.req('post', '/auth/login', 404)
     .send({
