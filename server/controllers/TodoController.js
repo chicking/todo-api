@@ -5,14 +5,10 @@ import {wrap, error} from '../utils'
 var debug = require('debug')('todo-api:TodoController')
 var router = express.Router()
 
-router.get('/:category_id?', wrap(async (req, res) => {
+router.get('/', wrap(async (req, res) => {
   debug('[GET] /')
   var query = {
     user_id: req.user._id
-  }
-
-  if (req.params.category_id) {
-    query.category_id = req.params.category_id
   }
 
   const todos = await Todo.find(query).exec()
@@ -24,8 +20,7 @@ router.post('/', wrap(async (req, res) => {
 
   const reqJson = {
     user_id: req.user._id,
-    content: req.body.content,
-    category_id: req.body.category_id
+    content: req.body.content
   }
 
   // TODO validate
@@ -48,10 +43,6 @@ router.put('/:id', wrap(async (req, res) => {
   }
 
   // TODO validate
-
-  if (req.body.category_id) {
-    todo.category_id = req.body.category_id
-  }
 
   if (req.body.content) {
     todo.content = req.body.content

@@ -14,7 +14,6 @@ test.before(() => {
 test('list', async t => {
   const mockTodos = utils.mocks({
     user_id: 1,
-    category_id: 1,
     content: '{{lorem.sentence}}',
     done: '{{random.boolean}}'
   }, 3)
@@ -32,24 +31,17 @@ test('list', async t => {
 })
 
 test('update #404', async t => {
-  const res = await utils.auth('put', '/todo/0', 404)
+  const objId = utils.getObjectId()
+  const res = await utils.auth('put', `/todo/${objId}`, 404)
 
   t.is(res.body.message, 'Not Found')
 })
 
 test('delete #404', async t => {
-  const res = await utils.auth('delete', '/todo/0', 404)
+  const objId = utils.getObjectId()
+  const res = await utils.auth('delete', `/todo/${objId}`, 404)
 
   t.is(res.body.message, 'Not Found')
-})
-
-test('list @empty', async t => {
-  const category_id = '0'
-  const res = await utils.auth('get', `/todo/${category_id}`)
-
-  const todos = res.body.todos
-  t.true(Array.isArray(todos))
-  t.is(todos.length, 0)
 })
 
 test.serial('insert', async t => {
@@ -86,27 +78,6 @@ test.serial('update @done', async t => {
   const todo = res.body
   t.is(todo.done, mock.done)
   t.not(todo.done, mockTodo.done)
-})
-
-test.serial('update @category_id', async t => {
-  const mock = {
-    category_id: 2
-  }
-
-  const res = await utils.auth('put', `/todo/${todo_id}`).send(mock)
-
-  const todo = res.body
-  t.is(todo.category_id, mock.category_id)
-})
-
-test.serial('list category_id', async t => {
-  const category_id = 2
-  const res = await utils.auth('get', `/todo/${category_id}`)
-
-  const todos = res.body.todos
-  t.true(Array.isArray(todos))
-  t.true(todos.every(todo => todo.category_id === category_id))
-  t.true(todos.every(todo => todo._id === todo_id))
 })
 
 test.serial('delete', async t => {

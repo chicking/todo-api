@@ -51,3 +51,7 @@ export function getNextId(_id) {
       })
   })
 }
+
+export function getObjectId() {
+  return new mongoose.Types.ObjectId()
+}

@@ -28,6 +28,10 @@ export function auth(method, url, status = 200) {
   return this.req(method, url, status).set('Authorization', `Bearer ${token}`)
 }
 
+export function getObjectId() {
+  return db.getObjectId()
+}
+
 function getModel(name) {
   return require(`../../server/models/${name}`)
 }

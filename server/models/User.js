@@ -12,7 +12,7 @@ var Schema = mongoose.Schema({
   updated_at: Date
 }, {
   versionKey: false,
-  collection: 'user'
+  collection: 'users'
 })
 
 Schema.pre('save', async function (next) {

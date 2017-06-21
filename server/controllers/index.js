@@ -11,6 +11,5 @@ router.get('/me', authenticated, (req, res) => {
 })
 
 router.use('/todo', authenticated, require('./TodoController'))
-router.use('/category', authenticated, require('./CategoryController'))
 
 module.exports = router

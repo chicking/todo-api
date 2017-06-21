@@ -1,7 +1,6 @@
 /* global config */
 import express from 'express'
 import User from '../models/User'
-import Category from '../models/Category'
 import jwt from 'jsonwebtoken'
 import {wrap, error} from '../utils'
 
@@ -45,14 +44,7 @@ router.post('/regist', wrap(async (req, res) => {
     password: req.body.password
   }
 
-  const createdUser = await User.create(user)
-
-  const defaultCategory = {
-    user_id: createdUser._id,
-    title: 'Today'
-  }
-
-  await Category.create(defaultCategory)
+  await User.create(user)
 
   res.status(201).json({success: true})
 }))
