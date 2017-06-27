@@ -33,6 +33,9 @@ test.serial('login', async t => {
     .send(user)
 
   token = res.body.token
+  t.truthy(token)
+
+  t.is(user.name, res.body.user.name)
 
   t.pass()
 })

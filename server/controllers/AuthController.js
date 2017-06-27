@@ -23,7 +23,8 @@ router.post('/login', wrap(async (req, res, next) => {
       })
 
       res.json({
-        token
+        token,
+        user
       })
     } else {
       next(error(401, 'Wrong password'))
