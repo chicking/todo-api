@@ -15,6 +15,6 @@ module.exports = {
     { jwt: [] }
   ],
   basePath: process.env.NODE_ENV === 'production'
-    ? '/api/todo'
+    ? '/todo/api'
     : '/api'
 }
