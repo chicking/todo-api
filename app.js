@@ -4,6 +4,8 @@ import path from 'path'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc'
 
 var debug = require('debug')('todo-api:app')
 
@@ -21,6 +23,22 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('secret', config.jwt.secret)
 
 app.use('/api', require('./server/controllers'))
+
+// Swagger definition
+const swaggerDefinition = require('./swagger/def')
+
+// Options for the swagger docs
+var options = {
+  // Import swaggerDefinitions
+  swaggerDefinition,
+  // Path to the API docs
+  apis: ['./server/controllers/*.js', './swagger/*.yaml']
+}
+
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+var swaggerSpec = swaggerJSDoc(options)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

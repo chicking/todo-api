@@ -41,6 +41,8 @@
     "nodemon": "^1.11.0",
     "nyc": "^10.2.0",
     "supertest": "^3.0.0",
+    "swagger-jsdoc": "^1.9.5",
+    "swagger-ui-express": "^2.0.1",
     "tap-nyan": "^1.1.0"
   },
   "ava": {
