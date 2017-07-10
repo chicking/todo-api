@@ -8,16 +8,25 @@ router.use('/auth', require('./AuthController'))
  * @swagger
  * definitions:
  *   User:
- *     required:
- *       - name
- *       - password
  *     properties:
+ *       _id:
+ *         type: integer
+ *         description: ID
  *       name:
  *         type: string
  *         description: 사용자 이름
- *       password:
- *         type: password
- *         description: 비밀번호
+ *       created_at:
+ *         type: date
+ *         description: 생성일
+ *       updated_at:
+ *         type: date
+ *         description: 수정일
+ *     example: {
+ *       _id: 1,
+ *       name: "username",
+ *       created_at: "2017-06-23T14:58:56.757Z",
+ *       updated_at: "2017-06-23T14:58:56.757Z"
+ *     }
  */
 
  /**

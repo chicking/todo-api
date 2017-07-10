@@ -48,11 +48,10 @@ var router = express.Router()
  *         schema:
  *           type: object
  *           properties:
+ *             user:
+ *               $ref: '#/definitions/User'
  *             token:
  *               type: string
- *           example: {
- *             "token": "encoded JWT"
- *           }
  *       401:
  *         description: incorrect password
  *       404:
