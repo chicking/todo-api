@@ -23,8 +23,8 @@ test.serial('regist', () => {
     .send(user)
 })
 
-test.serial('regist#422', () => {
-  return utils.req('post', '/auth/regist', 422)
+test.serial('regist#409', () => {
+  return utils.req('post', '/auth/regist', 409)
     .send(user)
 })
 
@@ -33,7 +33,7 @@ test.serial('login', async t => {
     .send(user)
 
   token = res.body.token
-  
+
   t.truthy(token)
   t.is(user.name, res.body.user.name)
 })
@@ -68,40 +68,3 @@ test('login#404', () => {
       password: 'passwd'
     })
 })
-
-
-/**
-인증 테스트
-
-* 토큰 없이 요청
-=> [GET] /me
-<= 403
-
-* 잘못된 토큰으로 요청
-=> [GET] /me
-<= 401
-
-* 없는 사용자로 요청
-=> [POST] /auth/login
-<= 404
-
-s* 가입
-=> [POST] /auth/regist
-<= 201
-
-s* 중복 가입
-=> [POST] /auth/regist
-<= 422
-
-s* 잘못된 패스워드로 요청
-=> [POST] /auth/login
-<= 401
-
-s* 로그인
-=> [POST] /auth/login
-<= 200, token
-
-s* Me
-=> [GET] /me
-<= 200, User
-*/

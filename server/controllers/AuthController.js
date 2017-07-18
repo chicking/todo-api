@@ -104,7 +104,7 @@ router.post('/login', wrap(async (req, res, next) => {
  *           example: {
  *             "success": true
  *           }
- *       422:
+ *       409:
  *         description: When the username is already in use
  */
 router.post('/regist', wrap(async (req, res) => {
@@ -112,7 +112,7 @@ router.post('/regist', wrap(async (req, res) => {
 
   const existUser = await User.findOne({name: req.body.name}).exec()
   if (existUser) {
-    throw error(422, 'exist username')
+    throw error(409, 'exist username')
   }
 
   const user = {
