@@ -11,9 +11,6 @@ var CounterSchema = mongoose.Schema({
 })
 var Counter = mongoose.model('Counter', CounterSchema)
 
-var db = null
-// var counters = null
-
 /* global config */
 var url = config.db.protocol + '://' +
           config.db.user + ':' + config.db.pwd +
@@ -23,17 +20,10 @@ var url = config.db.protocol + '://' +
 export function connect(cb) {
   debug(url)
 
-  db = mongoose.connection
-  db.on('error', console.error.bind(console, 'connection error:'))
-  db.once('open', () => {
-    cb()
-  })
-
-  mongoose.connect(url, config.db.options)
+  return mongoose.connect(url, config.db.options)
 }
 
 export function disconnect(cb) {
-  db = null
   mongoose.disconnect(cb)
 }
 

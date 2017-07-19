@@ -18,14 +18,18 @@ test('no token', async t => {
   t.pass()
 })
 
-test.serial('regist', () => {
-  return utils.req('post', '/auth/regist', 201)
+test.serial('regist', async t => {
+  const res = await utils.req('post', '/auth/regist', 201)
     .send(user)
+
+  t.true(res.body.success)
 })
 
-test.serial('regist#409', () => {
-  return utils.req('post', '/auth/regist', 409)
+test.serial('regist#409', async t => {
+  const res = await utils.req('post', '/auth/regist', 409)
     .send(user)
+
+  t.is(res.body.message, 'exist username')
 })
 
 test.serial('login', async t => {
@@ -46,12 +50,14 @@ test.serial('me', async t => {
   t.falsy(res.body.user.password)
 })
 
-test.serial('login#401', () => {
-  return utils.req('post', '/auth/login', 401)
+test.serial('login#401', async t => {
+  const res = await utils.req('post', '/auth/login', 401)
     .send({
       name: user.name,
       password: 'passwd'
     })
+
+  t.is(res.body.message, 'Incorrect password')
 })
 
 test('me#401', async t => {
@@ -61,10 +67,12 @@ test('me#401', async t => {
   t.false(res.body.success)
 })
 
-test('login#404', () => {
-  return utils.req('post', '/auth/login', 404)
+test('login#404', async t => {
+  const res = await utils.req('post', '/auth/login', 404)
     .send({
       name: 'not found user',
       password: 'passwd'
     })
+
+  t.is(res.body.message, 'Not Found')
 })

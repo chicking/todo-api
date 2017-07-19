@@ -2,8 +2,7 @@
 default:
   protocol: mongodb
   options:
-    server:
-      poolSize: 5
+    useMongoClient: true
 
 test: &test
   host: ds157390.mlab.com
