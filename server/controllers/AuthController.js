@@ -112,7 +112,7 @@ router.post('/regist', wrap(async (req, res) => {
 
   const existUser = await User.findOne({name: req.body.name}).exec()
   if (existUser) {
-    throw error(409, 'exist username')
+    throw error(409, 'Exist username')
   }
 
   const user = {

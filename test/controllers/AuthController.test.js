@@ -29,7 +29,7 @@ test.serial('regist#409', async t => {
   const res = await utils.req('post', '/auth/regist', 409)
     .send(user)
 
-  t.is(res.body.message, 'exist username')
+  t.is(res.body.message, 'Exist username')
 })
 
 test.serial('login', async t => {
