@@ -2,23 +2,19 @@
 import express from 'express'
 import path from 'path'
 import logger from 'morgan'
-import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 
-var debug = require('debug')('todo-api:app')
+const debug = require('debug')('todo-api:app')
 
-var app = express()
+const app = express()
 
 // uncomment after placing your favicon in /public
 if (app.get('env') !== 'test') {
   app.use(logger(config.app.logLevel))
 }
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-
-app.set('secret', config.jwt.secret)
 
 app.use('/api', require('./server/controllers'))
 
@@ -30,7 +26,7 @@ if (app.get('env') !== 'test') {
   const swaggerDefinition = require('./swagger/def')
 
   // Options for the swagger docs
-  var options = {
+  const options = {
     // Import swaggerDefinitions
     swaggerDefinition,
     // Path to the API docs
@@ -38,7 +34,7 @@ if (app.get('env') !== 'test') {
   }
 
   // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swaggerSpec = swaggerJSDoc(options)
+  const swaggerSpec = swaggerJSDoc(options)
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 }

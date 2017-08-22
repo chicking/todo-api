@@ -4,7 +4,7 @@ import {getNextId} from '../../db'
 
 const SALT_WORK_FACTORY = 10
 
-var Schema = mongoose.Schema({
+const Schema = mongoose.Schema({
   _id: Number,
   name: {type: String, required: true},
   password: {type: String, required: true},

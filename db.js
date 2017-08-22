@@ -1,18 +1,17 @@
 import mongoose from 'mongoose'
 mongoose.Promise = global.Promise
 
-var debug = require('debug')('todo-api:db')
+const debug = require('debug')('todo-api:db')
 
-var CounterSchema = mongoose.Schema({
+const CounterSchema = mongoose.Schema({
   _id: { type: String, required: true },
   seq: { type: Number, default: 0 }
 }, {
   versionKey: false
 })
-var Counter = mongoose.model('Counter', CounterSchema)
+const Counter = mongoose.model('Counter', CounterSchema)
 
-/* global config */
-var url = config.db.protocol + '://' +
+const url = config.db.protocol + '://' +
           config.db.user + ':' + config.db.pwd +
           '@' + config.db.host + ':' + config.db.port +
           '/' + config.db.database

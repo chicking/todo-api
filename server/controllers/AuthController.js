@@ -4,8 +4,8 @@ import User from '../models/User'
 import jwt from 'jsonwebtoken'
 import {wrap, error} from '../utils'
 
-var debug = require('debug')('todo-api:AuthController')
-var router = express.Router()
+const debug = require('debug')('todo-api:AuthController')
+const router = express.Router()
 
 /**
  * @swagger

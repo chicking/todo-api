@@ -1,7 +1,7 @@
 import express from 'express'
 import {authenticated} from './middlewares'
 
-var router = express.Router()
+const router = express.Router()
 router.use('/auth', require('./AuthController'))
 
 /**

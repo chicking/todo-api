@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-var Schema = mongoose.Schema({
+const Schema = mongoose.Schema({
   user_id: {type: Number, required: true},
   content: {type: String, required: true},
   done: {type: Boolean, default: false},

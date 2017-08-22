@@ -2,8 +2,8 @@ import express from 'express'
 import Todo from '../models/Todo'
 import {wrap, error} from '../utils'
 
-var debug = require('debug')('todo-api:TodoController')
-var router = express.Router()
+const debug = require('debug')('todo-api:TodoController')
+const router = express.Router()
 
 /**
  * @swagger
