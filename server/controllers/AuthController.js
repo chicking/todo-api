@@ -2,7 +2,7 @@
 import express from 'express'
 import User from '../models/User'
 import jwt from 'jsonwebtoken'
-import {wrap, error} from '../utils'
+import {wrap, error, validator} from '../utils'
 
 const debug = require('debug')('todo-api:AuthController')
 const router = express.Router()
@@ -29,6 +29,9 @@ const router = express.Router()
  *     in: formData
  *     required: true
  *     type: password
+ *     schema:
+ *       type: password
+ *       minLength: 6
  */
 
 /**
@@ -57,7 +60,10 @@ const router = express.Router()
  *       404:
  *         description: not found user
  */
-router.post('/login', wrap(async (req, res, next) => {
+const LoginRule = {
+  name: 'required'
+}
+router.post('/login', validator(LoginRule), wrap(async (req, res, next) => {
   debug('/login', req.body)
   const user = await User.findOne({name: req.body.name}).exec()
 
@@ -107,7 +113,11 @@ router.post('/login', wrap(async (req, res, next) => {
  *       409:
  *         description: When the username is already in use
  */
-router.post('/regist', wrap(async (req, res) => {
+const RegistRule = {
+  name: 'required',
+  password: 'required|min:6'
+}
+router.post('/regist', validator(RegistRule), wrap(async (req, res) => {
   debug('/regist')
 
   const existUser = await User.findOne({name: req.body.name}).exec()
