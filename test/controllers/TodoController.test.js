@@ -44,6 +44,13 @@ test('delete #404', async t => {
   t.is(res.body.message, 'Not Found')
 })
 
+test('insert #400', async t => {
+  const res = await utils.auth('post', '/todo', 400).send()
+
+  t.is(res.body.message, 'Bad Request')
+  t.is(res.body.data.content[0], 'The content field is required.')
+})
+
 test.serial('insert', async t => {
   const res = await utils.auth('post', '/todo', 201)
     .send(mockTodo)

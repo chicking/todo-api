@@ -1,6 +1,6 @@
 import express from 'express'
 import Todo from '../models/Todo'
-import {wrap, error} from '../utils'
+import {wrap, error, validator} from '../utils'
 
 const debug = require('debug')('todo-api:TodoController')
 const router = express.Router()
@@ -95,15 +95,16 @@ router.get('/', wrap(async (req, res) => {
  *         schema:
  *           $ref: '#/definitions/Todo'
  */
-router.post('/', wrap(async (req, res) => {
+const PostRules = {
+  content: 'required'
+}
+router.post('/', validator(PostRules), wrap(async (req, res) => {
   debug('[POST] /' + JSON.stringify(req.body))
 
   const reqJson = {
     user_id: req.user._id,
     content: req.body.content
   }
-
-  // TODO validate
 
   const todo = await Todo.create(reqJson)
 
@@ -139,8 +140,6 @@ router.put('/:id', wrap(async (req, res) => {
   if (!todo) {
     throw error(404, 'Not Found')
   }
-
-  // TODO validate
 
   if (req.body.content) {
     todo.content = req.body.content
