@@ -25,7 +25,7 @@ test.serial('regist', async t => {
   t.true(res.body.success)
 })
 
-test.serial('regist#409', async t => {
+test.serial('regist #409 #exist name', async t => {
   const res = await utils.req('post', '/auth/regist', 409)
     .send(user)
 
@@ -50,7 +50,7 @@ test.serial('me', async t => {
   t.falsy(res.body.user.password)
 })
 
-test.serial('login#401', async t => {
+test.serial('login #401', async t => {
   const res = await utils.req('post', '/auth/login', 401)
     .send({
       name: user.name,
@@ -60,14 +60,14 @@ test.serial('login#401', async t => {
   t.is(res.body.message, 'Incorrect password')
 })
 
-test('me#401', async t => {
+test('me #401', async t => {
   const res = await utils.req('get', '/me', 401)
     .set('Authorization', 'Bearer invalid_token')
 
   t.false(res.body.success)
 })
 
-test('login#404', async t => {
+test('login #404', async t => {
   const res = await utils.req('post', '/auth/login', 404)
     .send({
       name: 'not found user',
@@ -75,4 +75,29 @@ test('login#404', async t => {
     })
 
   t.is(res.body.message, 'Not Found')
+})
+
+test('login #400 #required name', async t => {
+  const res = await utils.req('post', '/auth/login', 400).send()
+
+  t.is(res.body.message, 'Bad Request')
+  t.is(res.body.data.name[0], 'The name field is required.')
+})
+
+test('regist #400 #required name', async t => {
+  const res = await utils.req('post', '/auth/regist', 400).send()
+
+  t.is(res.body.message, 'Bad Request')
+  t.is(res.body.data.name[0], 'The name field is required.')
+})
+
+test('regist #400 #min password', async t => {
+  const res = await utils.req('post', '/auth/regist', 400)
+    .send({
+      name: 'name',
+      password: 'min'
+    })
+
+  t.is(res.body.message, 'Bad Request')
+  t.is(res.body.data.password[0], 'The password must be at least 6 characters.')
 })

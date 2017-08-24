@@ -44,7 +44,7 @@ test('delete #404', async t => {
   t.is(res.body.message, 'Not Found')
 })
 
-test('insert #400', async t => {
+test('insert #400 #required content', async t => {
   const res = await utils.auth('post', '/todo', 400).send()
 
   t.is(res.body.message, 'Bad Request')
@@ -63,7 +63,7 @@ test.serial('insert', async t => {
   todo_id = todo._id
 })
 
-test.serial('update @content', async t => {
+test.serial('update content', async t => {
   const mock = utils.mock({
     content: '{{lorem.sentence}}'
   })
@@ -75,7 +75,7 @@ test.serial('update @content', async t => {
   t.not(todo.content, mockTodo.content)
 })
 
-test.serial('update @done', async t => {
+test.serial('update done', async t => {
   const mock = {
     done: !mockTodo.done
   }
