@@ -2,7 +2,7 @@
 default:
   protocol: mongodb
   options:
-    useMongoClient: true
+    useNewUrlParser: true
 
 test: &test
   host: ds157390.mlab.com

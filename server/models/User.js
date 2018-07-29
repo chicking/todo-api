@@ -22,19 +22,15 @@ Schema.pre('save', async function (next) {
     this._id = await getNextId('user')
   }
 
-  if (this.isModified('password')) {
-    bcrypt.genSalt(SALT_WORK_FACTORY, (err, salt) => {
-      if (err) return next(err)
+  if (!this.isModified('password')) next()
 
-      bcrypt.hash(this.password, salt, (err, hash) => {
-        if (err) return next(err)
-
-        this.password = hash
-        next()
-      })
-    })
-  } else {
+  try {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTORY)
+    const hash = await bcrypt.hash(this.password, salt)
+    this.password = hash
     next()
+  } catch (e) {
+    next(e)
   }
 })
 
